@@ -1,8 +1,13 @@
 package com.freshGoodies.userstories.cart;
 
+import com.freshGoodies.userstories.cart.model.Cart;
 import com.freshGoodies.userstories.cart.service.CartService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.freshGoodies.userstories.responses.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/cart")
@@ -13,5 +18,26 @@ public class CartController {
         this.cartService = cartService;
     }
 
+    @PostMapping
+    public ResponseEntity<Response<Cart>> addCart(@RequestBody Cart cart){
+        Cart savedCart = cartService.addCart(cart);
+        return Response.successResponse(HttpStatus.OK.value(), "Cart successfully add", cart);
+    }
+
+    @GetMapping
+    public ResponseEntity<Response<List<Cart>>> getCartDetails(){
+        return Response.successResponse(HttpStatus.OK.value(), "Details successfully shown", cartService.getCartDetail());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Response<Cart>> updateCartQuantity(@PathVariable long id, @RequestBody Cart newCart){
+        Cart updateCart = cartService.updateCart(id, newCart);
+        return Response.successResponse(HttpStatus.OK.value(), "Quantity is updated", updateCart);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response<Cart>> deleteCart(@PathVariable long id){
+        return Response.successResponse(HttpStatus.OK.value(), "Delete is successfully", cartService.deleteCart(id));
+    }
 
 }

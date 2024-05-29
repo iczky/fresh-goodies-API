@@ -5,5 +5,9 @@ import com.freshGoodies.userstories.cart.model.Cart;
 import java.util.List;
 
 public interface CartService {
-    List<Cart> addCart(Cart cart);
+    Cart addCart(Cart cart);
+    List<Cart> getCartDetail();
+    Cart updateCart(long id, Cart newCart);
+
+    Cart deleteCart(long id);
 }

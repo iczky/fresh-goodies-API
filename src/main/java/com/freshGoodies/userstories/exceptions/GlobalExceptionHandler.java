@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ProductNotFoundException.class)
     public final ResponseEntity<Response<String>> handleProductNotFoundException(ProductNotFoundException ex){
         log.error(ex.getMessage(), ex);
-        return Response.failedResponse(HttpStatus.BAD_REQUEST.value(), "Unable to process the request", ex.getMessage());
+        return Response.failedResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
