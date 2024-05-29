@@ -54,4 +54,12 @@ public class ProductController {
         var currentProduct = productService.updateProduct(product);
         return Response.successResponse("Update successful", currentProduct);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response<String>> deleteProductById (@PathVariable long id){
+        String dataMsg = productService.deleteProductById(id);
+        return Response.successResponse("Operation Successful", dataMsg);
+    }
+
+
 }

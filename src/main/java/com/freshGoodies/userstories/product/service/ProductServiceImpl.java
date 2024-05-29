@@ -18,6 +18,11 @@ public class ProductServiceImpl implements ProductService {
     private AtomicLong counter = new AtomicLong();
 
     @Override
+    public List<Product> getProductList(){
+        return products;
+    }
+
+    @Override
     public Product saveProduct(Product product) {
         boolean exists =products.stream().anyMatch(p -> Objects.equals(p.getId(), product.getId()));
         if (exists){
@@ -74,5 +79,15 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return currentProduct;
+    }
+
+    @Override
+    public String deleteProductById(long id){
+        boolean exist = products.stream().anyMatch(product -> product.getId().equals(id));
+        if (!exist){
+            throw new ProductNotFoundException("Product tk ade, ape yg nk dihapus?");
+        }
+        products.removeIf(product -> product.getId().equals(id));
+        return "Product successfully deleted!!";
     }
 }
