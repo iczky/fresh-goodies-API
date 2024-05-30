@@ -1,8 +1,10 @@
 package com.freshGoodies.userstories.cart;
 
 import com.freshGoodies.userstories.cart.model.Cart;
+import com.freshGoodies.userstories.cart.model.CartWithDetail;
 import com.freshGoodies.userstories.cart.service.CartService;
 import com.freshGoodies.userstories.responses.Response;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +21,13 @@ public class CartController {
     }
 
     @PostMapping
-    public ResponseEntity<Response<Cart>> addCart(@RequestBody Cart cart){
+    public ResponseEntity<Response<Cart>> addCart(@Valid @RequestBody Cart cart){
         Cart savedCart = cartService.addCart(cart);
         return Response.successResponse(HttpStatus.OK.value(), "Cart successfully add", cart);
     }
 
     @GetMapping
-    public ResponseEntity<Response<List<Cart>>> getCartDetails(){
+    public ResponseEntity<Response<List<CartWithDetail>>> getCartDetails(){
         return Response.successResponse(HttpStatus.OK.value(), "Details successfully shown", cartService.getCartDetail());
     }
 

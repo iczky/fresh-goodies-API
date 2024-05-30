@@ -19,6 +19,4 @@ public class Cart {
     @NotBlank(message = "Quantity must be input")
     private int quantity;
 
-    private Optional<Product> product;
-
 }

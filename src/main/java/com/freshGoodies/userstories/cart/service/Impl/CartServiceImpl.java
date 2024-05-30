@@ -1,6 +1,7 @@
 package com.freshGoodies.userstories.cart.service.Impl;
 
 import com.freshGoodies.userstories.cart.model.Cart;
+import com.freshGoodies.userstories.cart.model.CartWithDetail;
 import com.freshGoodies.userstories.cart.service.CartService;
 import com.freshGoodies.userstories.exceptions.ProductNotFoundException;
 import com.freshGoodies.userstories.product.model.Product;
@@ -25,7 +26,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart addCart(Cart cart){
-        List<Product> products = productService.getProductList();
+        List<Product> products = productService.getAllProduct();
         boolean cartExist = carts.stream().anyMatch(c -> c.getProductId() == cart.getProductId());
         boolean productExist = products.stream().anyMatch(p -> p.getId() == cart.getProductId());
 
@@ -40,15 +41,17 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<Cart> getCartDetail(){
-        List<Cart> cartWithDetailsProduct = new ArrayList<>();
+    public List<CartWithDetail> getCartDetail(){
+        List<CartWithDetail> cartWithDetailsList = new ArrayList<>();
         for (Cart cart : carts){
             long productId = cart.getProductId();
             Optional<Product> product = productService.getProductById(productId);
-            cart.setProduct(product);
-            cartWithDetailsProduct.add(cart);
+            CartWithDetail cartWithDetail = new CartWithDetail();
+            cartWithDetail.setCart(cart);
+            cartWithDetail.setProduct(product);
+            cartWithDetailsList.add(cartWithDetail);
         }
-        return cartWithDetailsProduct;
+        return cartWithDetailsList;
     }
 
     @Override

@@ -17,7 +17,7 @@ public class ProductServiceImpl implements ProductService {
     private AtomicLong counter = new AtomicLong();
 
     @Override
-    public List<Product> getProductList(){
+    public List<Product> getAllProduct(){
         return products;
     }
 
@@ -31,11 +31,6 @@ public class ProductServiceImpl implements ProductService {
         product.setId(counter.incrementAndGet());
         products.add(product);
         return product;
-    }
-
-    @Override
-    public List<Product> getAllProduct(){
-        return products;
     }
 
     @Override
