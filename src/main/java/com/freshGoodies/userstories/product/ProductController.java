@@ -1,15 +1,12 @@
 package com.freshGoodies.userstories.product;
 
-import com.freshGoodies.userstories.product.model.Product;
+import com.freshGoodies.userstories.product.entity.Product;
 import com.freshGoodies.userstories.product.service.ProductService;
 import com.freshGoodies.userstories.responses.Response;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -27,26 +24,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Response<List<Product>>> getAllProduct(
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "category", required = false) String category
-    )
-    {
-        List<Product> productList;
-        if (name == null && category == null){
-            productList = productService.getAllProduct();
-            return Response.successResponse(HttpStatus.OK.value(), "Get All Products", productList);
-        } else {
-            productList = productService.searchProduct(name, category);
-            return Response.successResponse(HttpStatus.OK.value(), "Get " + name + "!!", productList);
-        }
-
+    public ResponseEntity<?> searchProductByName (@RequestParam String name){
+        return Response.successResponse("Fetch product that contain: " + name, productService.searchProduct(name));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response<Optional<Product>>> getProductById (@PathVariable long id){
-        Optional<Product> product = productService.getProductById(id);
-        return Response.successResponse("Get product detail", product);
+    public ResponseEntity<?> getProductById (@PathVariable long id){
+        return Response.successResponse("Fetch product with id: " + id, productService.getProductById(id));
     }
 
     @PutMapping

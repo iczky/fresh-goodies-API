@@ -1,10 +1,14 @@
-package com.freshGoodies.userstories.product.model;
+package com.freshGoodies.userstories.product.entity;
 
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
+@Embeddable
+@Table(name = "metadata", schema = "public")
 public class Metadata {
     @NotBlank(message = "Unit is required!")
     private String unit;

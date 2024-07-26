@@ -1,19 +1,18 @@
-package com.freshGoodies.userstories.product.model;
+package com.freshGoodies.userstories.product.entity;
 
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
-@NoArgsConstructor
-@Setter
-@Getter
+@Entity
+@Table(name = "product", schema = "public")
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -32,6 +31,7 @@ public class Product {
     @NotBlank(message = "imageUrl is required!")
     private String imageUrl;
 
+    @Embedded
     @NotNull(message = "Metadata is required!")
     private Metadata metadata;
 }

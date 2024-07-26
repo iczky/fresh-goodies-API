@@ -1,87 +1,57 @@
 package com.freshGoodies.userstories.product.service;
 
-import com.freshGoodies.userstories.exceptions.ProductNotFoundException;
-import com.freshGoodies.userstories.product.model.Product;
+import com.freshGoodies.userstories.product.entity.Product;
+import com.freshGoodies.userstories.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+    private final ProductRepository repository;
 
-    private List<Product> products = new ArrayList<>();
-    private AtomicLong counter = new AtomicLong();
-
-    @Override
-    public List<Product> getAllProduct(){
-        return products;
+    public ProductServiceImpl(ProductRepository repository) {
+        this.repository = repository;
     }
+
 
     @Override
     public Product saveProduct(Product product) {
-        boolean exists =products.stream().anyMatch(p -> Objects.equals(p.getId(), product.getId()));
-        if (exists){
-            throw new RuntimeException("Product with ID: " + product.getId() + " Already Exist");
-//            return Response.failedResponse(HttpStatus.CONFLICT.value(), "Product ID is already exist", null);
-        }
-        product.setId(counter.incrementAndGet());
-        products.add(product);
-        return product;
+        return repository.save(product);
     }
 
     @Override
-    public Optional<Product> getProductById(long id){
-        var foundProduct =  products.stream().filter(product -> product.getId().equals(id)).findFirst();
-        if (foundProduct.isEmpty()){
-            throw new ProductNotFoundException("Product not found");
-        }
-        return foundProduct;
+    public List<Product> getAllProduct() {
+        return repository.findAll();
     }
 
     @Override
-    public List<Product> searchProduct(String name, String category){
-        List<Product> filteredProduct = products.stream().filter(product ->
-                        (name == null || product.getName().toLowerCase().contains(name.toLowerCase()))
-                                && (category == null || product.getCategory().toLowerCase().contains(category.toLowerCase()))
-                ).toList();
-        if (filteredProduct.isEmpty()){
-            throw new ProductNotFoundException("Product desire is not found!!");
+    public Product getProductById(long id) {
+        Optional<Product> optionalProduct = repository.findById(id);
+        if (optionalProduct.isEmpty()){
+            throw new RuntimeException("Product with ID: " + id + " is not available");
         }
-        return filteredProduct;
+
+        return optionalProduct.get();
     }
 
     @Override
-    public Product updateProduct(Product product){
-        Product currentProduct = products.stream()
-                .filter(p -> p.getId().equals(product.getId()))
-                .findFirst()
-                .orElse(null);
-
-        if (currentProduct != null){
-            currentProduct.setName(product.getName());
-            currentProduct.setPrice(product.getPrice());
-            currentProduct.setCategory(product.getCategory());
-            currentProduct.setWeight(product.getWeight());
-            currentProduct.setImageUrl(product.getImageUrl());
-            currentProduct.setMetadata(product.getMetadata());
-        } else {
-            throw new ProductNotFoundException("Product is not exist!!");
-        }
-
-        return currentProduct;
+    public List<Product> searchProduct(String name) {
+        return repository.findByNameContainingIgnoreCase(name);
     }
 
     @Override
-    public String deleteProductById(long id){
-        boolean exist = products.stream().anyMatch(product -> product.getId().equals(id));
-        if (!exist){
-            throw new ProductNotFoundException("Product tk ade, ape yg nk dihapus?");
+    public Product updateProduct(Product product) {
+        return repository.save(product);
+    }
+
+    @Override
+    public String deleteProductById(long id) {
+        if (!repository.existsById(id)){
+            throw new RuntimeException("Product is not available to delete");
         }
-        products.removeIf(product -> product.getId().equals(id));
-        return "Product successfully deleted!!";
+        repository.deleteById(id);
+        return "Delete successfully";
     }
 }

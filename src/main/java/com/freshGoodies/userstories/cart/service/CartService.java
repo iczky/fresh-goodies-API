@@ -1,14 +1,12 @@
 package com.freshGoodies.userstories.cart.service;
 
-import com.freshGoodies.userstories.cart.model.Cart;
-import com.freshGoodies.userstories.cart.model.CartWithDetail;
+import com.freshGoodies.userstories.cart.entity.Cart;
+import com.freshGoodies.userstories.cart.entity.CartItem;
+import com.freshGoodies.userstories.dto.CartItemDto;
 
 import java.util.List;
 
 public interface CartService {
-    Cart addCart(Cart cart);
-    List<CartWithDetail> getCartDetail();
-    Cart updateCart(long id, Cart newCart);
-
-    Cart deleteCart(long id);
+    CartItemDto addCart(CartItem cartItem);
+    void deleteCart(Long id);
 }

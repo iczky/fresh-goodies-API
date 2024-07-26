@@ -1,7 +1,6 @@
 package com.freshGoodies.userstories.cart;
 
-import com.freshGoodies.userstories.cart.model.Cart;
-import com.freshGoodies.userstories.cart.model.CartWithDetail;
+import com.freshGoodies.userstories.cart.entity.Cart;
 import com.freshGoodies.userstories.cart.service.CartService;
 import com.freshGoodies.userstories.responses.Response;
 import jakarta.validation.Valid;
