@@ -20,5 +20,4 @@ public class CartItem {
 
     @NotBlank(message = "Quantity must be input")
     private int quantity;
-
 }
