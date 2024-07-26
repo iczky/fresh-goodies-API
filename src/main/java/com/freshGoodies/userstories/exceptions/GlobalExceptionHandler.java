@@ -21,6 +21,12 @@ public class GlobalExceptionHandler {
         return Response.failedResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null);
     }
 
+    @ExceptionHandler(CartNotFoundException.class)
+    public final ResponseEntity<Response<String>> handleCartNotFoundException(CartNotFoundException ex){
+        log.error(ex.getMessage(), ex);
+        return Response.failedResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public final ResponseEntity<Response<String>> handleValidationExceptions(MethodArgumentNotValidException ex){
         log.error(ex.getMessage(), ex);

@@ -3,7 +3,6 @@ package com.freshGoodies.userstories.cart.entity;
 import com.freshGoodies.userstories.product.entity.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data

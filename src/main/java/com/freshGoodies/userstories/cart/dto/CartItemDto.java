@@ -1,4 +1,4 @@
-package com.freshGoodies.userstories.dto;
+package com.freshGoodies.userstories.cart.dto;
 
 import com.freshGoodies.userstories.cart.entity.CartItem;
 import lombok.Data;

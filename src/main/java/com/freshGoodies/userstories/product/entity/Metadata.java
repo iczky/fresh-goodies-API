@@ -17,7 +17,7 @@ public class Metadata {
     private int increment;
 
     @Min(value = 100, message = "Weight default is 100")
-    private int weight;
+    private int weightIncrement;
 
     @Min(value = 0, message = "Mana mungkin calorie negative wei")
     private int calorie;

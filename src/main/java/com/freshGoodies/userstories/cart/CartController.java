@@ -1,6 +1,7 @@
 package com.freshGoodies.userstories.cart;
 
-import com.freshGoodies.userstories.cart.entity.Cart;
+import com.freshGoodies.userstories.cart.dto.CartItemDto;
+import com.freshGoodies.userstories.cart.entity.CartItem;
 import com.freshGoodies.userstories.cart.service.CartService;
 import com.freshGoodies.userstories.responses.Response;
 import jakarta.validation.Valid;
@@ -20,25 +21,13 @@ public class CartController {
     }
 
     @PostMapping
-    public ResponseEntity<Response<Cart>> addCart(@Valid @RequestBody Cart cart){
-        Cart savedCart = cartService.addCart(cart);
-        return Response.successResponse(HttpStatus.OK.value(), "Cart successfully add", cart);
-    }
-
-    @GetMapping
-    public ResponseEntity<Response<List<CartWithDetail>>> getCartDetails(){
-        return Response.successResponse(HttpStatus.OK.value(), "Details successfully shown", cartService.getCartDetail());
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Response<Cart>> updateCartQuantity(@PathVariable long id, @RequestBody Cart newCart){
-        Cart updateCart = cartService.updateCart(id, newCart);
-        return Response.successResponse(HttpStatus.OK.value(), "Quantity is updated", updateCart);
+    public ResponseEntity<?> addItem(@RequestBody CartItem cartItem) {
+        return Response.successResponse("Add cart successfully", cartService.addCart(cartItem));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response<Cart>> deleteCart(@PathVariable long id){
-        return Response.successResponse(HttpStatus.OK.value(), "Delete is successfully", cartService.deleteCart(id));
+    public ResponseEntity<?> removeItem(@PathVariable Long id) {
+        return Response.successResponse("Cart successfully deleted", cartService.deleteCart(id));
     }
 
 }

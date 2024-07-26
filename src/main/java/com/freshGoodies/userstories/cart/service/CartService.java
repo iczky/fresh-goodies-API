@@ -1,9 +1,10 @@
 package com.freshGoodies.userstories.cart.service;
 
-import com.freshGoodies.userstories.cart.entity.Cart;
+import com.freshGoodies.userstories.cart.dto.CartItemDto;
 import com.freshGoodies.userstories.cart.entity.CartItem;
 
 public interface CartService {
     CartItem addCart(CartItem cartItem);
-    void deleteCart(Long id);
+    String deleteCart(Long id);
+    CartItemDto getCart(Long id);
 }

@@ -17,18 +17,24 @@ public class Product {
 
     @NotNull
     @NotBlank(message = "Product name is required!")
+    @Column(name = "name_product", nullable = false)
     private String name;
 
     @Min(value = 0, message = "Price must be non-negative!")
+    @Column(name = "price", nullable = false)
     private double price;
 
     @Min(value = 0, message = "Weight must be non-negative!")
+    @Column(name = "weight", nullable = false)
     private double weight;
 
     @NotBlank(message = "Product category is required!")
-    private String category;
+    @OneToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private Category category;
 
     @NotBlank(message = "imageUrl is required!")
+    @Column(name = "imageUrl")
     private String imageUrl;
 
     @Embedded
